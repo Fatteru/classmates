@@ -1,2 +1,11 @@
-h1
-  Hello World!
+h1 Hello World!
+- if session[:uid]
+  a{href="/signout"} signout
+- else
+  a{href="/signin"} signin
+
+- if @user
+  p
+    h5= @user.screen_name
+    h5= @user.location
+    h5= @user.description
