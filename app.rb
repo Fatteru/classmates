@@ -1,17 +1,21 @@
-# encoding: utf-8
+﻿# encoding: utf-8
 require 'rubygems'
 require 'bundler'
 Bundler.require
 
 require 'sinatra'
+require 'mongoid'
 require 'slim'
 require 'sass'
 
 enable :sessions
 
-WeiboOAuth2::Config.api_key = api_key
-WeiboOAuth2::Config.api_secret = api_secret
-WeiboOAuth2::Config.redirect_uri = redirect_uri
+WeiboOAuth2::Config.api_key = '1248800849'
+WeiboOAuth2::Config.api_secret = '149fbf28e07c284954a2a3253466e8fd'
+WeiboOAuth2::Config.redirect_uri = 'http://127.0.0.1:4567/callback'
+
+env = ENV['RACK_ENV'] || :development
+Mongoid.load!("./mongoid.yml", env)
 
 get '/' do
   client = WeiboOAuth2::Client.new
