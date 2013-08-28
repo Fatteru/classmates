@@ -4,9 +4,12 @@ require 'bundler'
 Bundler.require
 
 require 'sinatra'
-require 'mongoid'
 require 'slim'
 require 'sass'
+require 'mongoid'
+require 'json'
+
+require './models/user'
 
 enable :sessions
 
@@ -15,7 +18,7 @@ WeiboOAuth2::Config.api_secret = '149fbf28e07c284954a2a3253466e8fd'
 WeiboOAuth2::Config.redirect_uri = 'http://classmates.pinebriety.com/callback'
 
 env = ENV['RACK_ENV'] || :development
-Mongoid.load!("./mongoid.yml", env)
+Mongoid.load!("config/mongoid.yml", env)
 
 get '/' do
   client = WeiboOAuth2::Client.new
@@ -74,6 +77,12 @@ post '/update' do
   end
 
   redirect '/'
+end
+
+get '/:user' do
+  content_type :json
+  @user = User.first()
+  @user.to_json
 end
 
 get '/stylesheets/application.css' do
