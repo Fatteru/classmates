@@ -67,7 +67,8 @@ end
 get '/u/:uid' do
   content_type :json
   client = WeiboOAuth2::Client.new
-  client.get_token_from_hash({:access_token => session[:access_token], :expires_at => session[:expires_at]})
-  @userweibo = client.users.show_by_uid(params[:uid])
-  @userweibo.to_json
+  token = client.get_token_from_hash({:access_token => session[:access_token], :expires_at => session[:expires_at]})
+
+  @user = client.users.show_by_uid(params[:uid])
+  @user.to_json
 end
