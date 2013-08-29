@@ -3,23 +3,23 @@ html
   head
     meta charset="utf-8"
     title Classmates
-    = css :application, :media => 'screen'
-    = js :app
+    == css :application, :media => 'screen'
+    == js :application
     /[if Lt IE 9]
     script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"
   body
-    div class=["navbar","navbar-inverse"]
-    div.container
-      div.navbar-header
-        a.navbar-brand> href='#' Classmates
-      div class=["collapse","navbar-collapse"]
-        ul class=["nav","navbar-nav"]
-          li.active
-            a> href='#' Home
-          li
-            a> href='#' About
-          li
-            a> href='#' Contact
+    div.navbar.navbar-inverse
+      div.container
+        div.navbar-header
+          a.navbar-brand> href='#' Classmates
+        div.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li.active
+              a> href='#' Home
+            li
+              a> href='#' About
+            li
+              a> href='#' Contact
 
     div.container
-    == yield
+      == yield

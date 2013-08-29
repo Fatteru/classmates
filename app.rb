@@ -4,8 +4,8 @@ require 'bundler'
 Bundler.require
 
 require 'sinatra'
-# require 'sinatra/base'
-# require 'sinatra/assetpack'
+require 'sinatra/base'
+require 'sinatra/assetpack'
 require 'slim'
 require 'sass'
 require 'mongoid'
@@ -26,7 +26,7 @@ assets do
 
   # The second parameter defines where the compressed version will be served.
   # (Note: that parameter is optional, AssetPack will figure it out.)
-  js :application, '/javascripts/app.js', [
+  js :application, '/javascripts/application.js', [
     '/javascripts/*.js'
   ]
 
@@ -40,6 +40,6 @@ assets do
 end
 
 require './config/weibo'
-require './model/user'
+require './models/user'
 require './routes'
 require './helpers'
