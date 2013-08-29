@@ -4,13 +4,13 @@ require 'bundler'
 Bundler.require
 
 require 'sinatra'
-require 'sinatra/base'
 require 'sinatra/assetpack'
 require 'slim'
-require 'sass'
+# require 'sass'
 require 'mongoid'
 require 'json'
 
+# set :environment, :production
 enable :sessions
 
 env = ENV['RACK_ENV'] || :development
@@ -20,23 +20,23 @@ Mongoid.load!("config/mongoid.yml", env)
 register Sinatra::AssetPack
 
 assets do
-  serve '/javascripts', from: 'public/javascripts'       # Default
-  serve '/stylesheets', from: 'public/stylesheets'       # Default
-  serve '/images',      from: 'public/images'            # Default
+  serve '/javascripts', from: 'public/javascripts'
+  serve '/stylesheets', from: 'public/stylesheets'
+  serve '/images',      from: 'public/images'
 
-  # The second parameter defines where the compressed version will be served.
-  # (Note: that parameter is optional, AssetPack will figure it out.)
-  js :application, '/javascripts/application.js', [
-    '/javascripts/*.js'
+  js :application, [
+    '/javascripts/jquery-1.9.1.min.js',
+    '/javascripts/bootstrap.min.js',
+    '/javascripts/classmates.js'
   ]
 
-  css :application, '/css/application.css', [
-    '/stylesheets/*.css',
-    '/stylesheets/*.scss'
+  css :application, [
+    '/stylesheets/bootstrap.min.css',
+    '/stylesheets/classmates.css'
   ]
 
-  js_compression  :jsmin    # :jsmin | :yui | :closure | :uglify
-  css_compression :simple   # :simple | :sass | :yui | :sqwish
+  js_compression  :jsmin
+  css_compression :simple
 end
 
 require './config/weibo'

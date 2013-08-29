@@ -58,8 +58,16 @@ post '/update' do
   redirect '/'
 end
 
-get '/:user' do
+get '/u/all' do
   content_type :json
-  @user = User.first()
+  @user = User.each()
   @user.to_json
+end
+
+get '/u/:uid' do
+  content_type :json
+  client = WeiboOAuth2::Client.new
+  client.get_token_from_hash({:access_token => session[:access_token], :expires_at => session[:expires_at]})
+  @userweibo = client.users.show_by_uid(params[:uid])
+  @userweibo.to_json
 end
