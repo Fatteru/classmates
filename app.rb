@@ -27,7 +27,8 @@ assets do
   js :application, [
     '/javascripts/jquery-1.9.1.min.js',
     '/javascripts/bootstrap.min.js',
-    '/javascripts/classmates.js'
+    '/javascripts/classmates.js',
+    '/javascripts/tdt.js'
   ]
 
   css :application, [

@@ -1,0 +1,131 @@
+html, body, #mapDiv{
+    width:100%;
+    height:100%;
+}
+body{
+    margin: 0px;
+    padding: 0px;
+    overflow:hidden;
+}
+.navbar {
+    margin-bottom: 0px;
+    border-radius: 0px;
+}
+.content {
+    height: 100%;
+}
+#mapDiv{
+    position: relative;
+    background:#add8e6;
+    z-index:1;
+}
+img {
+    max-width: none;
+    /*height: valid!important;*/
+    height: auto\9;
+}
+.markerDiv{
+    background: url(../images/my1.png) no-repeat;
+    width: 38px;
+    height: 38px;
+    padding: 6px 0 0 7px;
+}
+#time-btn-div{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+}
+.detailimg{
+    width: 400px;
+    height: 250px;
+}
+.areadeatil{
+    text-indent: 20px;
+    margin-top: 10px;
+}
+.list-content{
+  background: none repeat scroll 0 0 #FFFFFF;
+  border-color: #CCCCCC #BFBFBF #8C8C8C #C0C0C0;
+  border-radius: 8px 2px 8px 0;
+  border-style: solid;
+  border-width: 1px 1px 5px 5px;
+  display: table-cell;
+  margin: 0;
+  padding: 8px 0 0 8px;
+  position: absolute;
+  right: 20px;
+  bottom: 30px;
+  width: 240px;
+  z-index: 999;
+  height: 300px;
+  color: #4C4C4C;
+}
+.list-content .close{
+  border-color: #CCCCCC #CCCCCC #000 #000;
+  border-radius: 0 0 0 0;
+  border-style: solid;
+  border-width: 1px;
+  color: #161212;
+  display: inline;
+  float: right;
+  font-size: 24px;
+  height: 38px;
+  line-height: 38px;
+  margin: -9px -1px 0 0;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  width: 40px;
+  z-index: 9999;
+}
+.list-content .close:hover{
+  background-color: #ccc;
+}
+.animate-modal{
+    -webkit-animation-name:'wobble';/*动画属性名，也就是我们前面keyframes定义的动画名*/
+    -webkit-animation-duration: 10s;/*动画持续时间*/
+    -webkit-animation-timing-function: ease-in-out; 动画频率，和transition-timing-function是一样的
+    -webkit-animation-delay: 2s;/*动画延迟时间*/
+    -webkit-animation-iteration-count: 10;/*定义循环资料，infinite为无限次*/
+    -webkit-animation-direction: alternate;/*定义动画方式*/
+}
+.bounce{
+  -webkit-animation: spaceboots .8s infinite;
+  -moz-animation: spaceboots .8s infinite;
+  -o-animation: spaceboots .8s infinite;
+  -ms-animation: spaceboots .8s infinite;
+  animation: spaceboots .8s infinite;
+}
+@keyframes spaceboots{
+  0%{transform:translate(0px,0px)}
+  30%{transform:translate(0px,8px)}
+  45%{transform:translate(0px,10px)}
+  50%{transform:translate(0px,14px)}
+  55%{transform:translate(0px,10px)}
+  70%{transform:translate(0px,8px)}
+}
+@-moz-keyframes spaceboots{
+  0%{-moz-transform:translate(0px,0px)}
+  30%{-moz-transform:translate(0px,8px)}
+  45%{-moz-transform:translate(0px,10px)}
+  50%{-moz-transform:translate(0px,14px)}
+  55%{-moz-transform:translate(0px,10px)}
+  70%{-moz-transform:translate(0px,8px)}
+}
+@-webkit-keyframes spaceboots{
+  0%{-webkit-transform:translate(0px,0px)}
+  30%{-webkit-transform:translate(0px,8px)}
+  45%{-webkit-transform:translate(0px,10px)}
+  50%{-webkit-transform:translate(0px,14px)}
+  55%{-webkit-transform:translate(0px,10px)}
+  70%{-webkit-transform:translate(0px,8px)}
+}
+@-ms-keyframes spaceboots{
+  0%{-ms-transform:translate(0px,0px)}
+  30%{-ms-transform:translate(0px,8px)}
+  45%{-ms-transform:translate(0px,10px)}
+  50%{-ms-transform:translate(0px,14px)}
+  55%{-ms-transform:translate(0px,10px)}
+  70%{-ms-transform:translate(0px,8px)}
+}

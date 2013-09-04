@@ -7,19 +7,55 @@ html
     == js :application
     /[if Lt IE 9]
     script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"
+    script src="http://api.tianditu.com/js/maps.js"
   body
     div.navbar.navbar-inverse
-      div.container
-        div.navbar-header
-          a.navbar-brand> href='#' Classmates
-        div.collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li.active
-              a> href='#' Home
+      div.navbar-header
+        a.navbar-brand> href='#' 同学录
+      div.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li.dropdown
+            a.dropdown-toggle data-toggle="dropdown" href="#"
+              | 时间
+              b.caret
+            ul.dropdown-menu
+              li
+                a href="#" 2008
+              li
+                a href="#" 2009
+              li
+                a href="#" 2010
+          li.dropdown
+            a.dropdown-toggle data-toggle="dropdown" href="#"
+              | 性别
+              b.caret
+            ul.dropdown-menu
+              li
+                a href="#" 全部
+              li
+                a href="#" 男生
+              li
+                a href="#" 女生
+          li
+            a href='#' 轨迹
+          li
+            a href='#' 附近的人
+          li
+            a href='#' 中国最美的十个地方
+          li
+            a href='#' 我想去
+        ul.nav.navbar-nav.navbar-right
+          - if @user
+            li.dropdown
+              a.dropdown-toggle data-toggle="dropdown" href="#"
+                = @user.screen_name
+                b.caret
+              ul.dropdown-menu
+                li
+                  a href="/signout" signout
+          - else
             li
-              a> href='#' About
-            li
-              a> href='#' Contact
+              a href="/signin" signin
 
-    div.container
+    div.content
       == yield
