@@ -3,44 +3,44 @@ var tdt = {};
 //轨迹数据
 tdt.trackData = {
     'friend1': [
-        [116.412, 39.883],
-        [114.352, 36.117],
-        [110.81, 26.37]
+        [106.549 ,29.560],
+        [112.474, 34.554],
+        [126.187, 41.156]
     ],
     'friend2': [
-        [103.82, 30.92],
-        [113.61, 38.98],
-        [109.255, 34.382]
+        [113.602, 38.977],
+        [103.0003, 30.831],
+        [107.759, 29.3259]
     ],
     'friend3': [
-        [111.412, 39.883],
-        [114.352, 30.117],
-        [110.81, 23.37]
+        [118.1214, 24.47001367120],
+        [103.82117849200, 30.92349052700],
+        [112.632253, 31.23019146760]
     ],
     'friend4': [
-        [103.82, 32.92],
-        [112.61, 38.98],
-        [105.255, 34.382]
+        [114.72136800000 ,   24.60591999980],
+        [112.18177900000,    37.21079100030],
+        [100.23863200000,    26.86919099980]
     ],
     'friend5': [
-        [113.412, 39.883],
-        [110.352, 36.117],
-        [118.81, 26.37]
+        [120.60890000100,    31.31104499940],
+        [109.25541296500,    34.38278461430],
+        [116.10450200000,    42.21356566294]
     ],
     'friend6': [
-        [103.82, 28.92],
-        [113.11, 38.98],
-        [108.255, 32.382]
+        [120.60890000100,    31.31104499940],
+        [112.18177900000,    37.21079100030],
+        [103.0003, 30.831]
     ],
     'friend7': [
-        [108.412, 39.883],
-        [125.352, 36.117],
-        [110.81, 22.37]
+        [112.18177900000,    37.21079100030],
+        [120.60890000100,    31.31104499940],
+        [100.23863200000,    26.86919099980]
     ],
     'friend8': [
-        [113.82, 30.92],
-        [113.61, 30.98],
-        [119.255, 36.382]
+        [118.1214, 24.47001367120],
+        [120.60890000100,    31.31104499940],
+        [112.632253, 31.23019146760]
     ]
 };
 
@@ -57,8 +57,6 @@ $(function () {
     function locationSuccess (position){
         var coords = position.coords, lonlat = new TLngLat(coords.longitude, coords.latitude);
         map.centerAndZoom(lonlat, zoom);
-
-
     };
 
     function locationError (){
@@ -72,7 +70,7 @@ $(function () {
             strokeStyle:"solid" //圆边线线的样式，solid或dashed
         };
         // 定义该矩形的显示区域
-        circle = new TCircle(map.getCenter(),500000,config);
+        circle = new TCircle(map.getCenter(), 500000, config);
         // map.addOverLay(circle);
     };
 
@@ -107,31 +105,42 @@ $(function () {
     map.addControl(copyRightControl);
 
     //请求数据，加载分布情况
-    $.get("info.txt", function(data) {
-        var lines = data.split('\n');
-        $.each(lines, function(index, value) {
-            // if (index > 1) return false;
-            var array = value.split("\t");
-            var r = Math.round(Math.random(1)*25 );
-            var icon = new TIcon("images/" + r + ".jpg",
-                new TSize(30, 30)
-            );
-            icon.containerDiv.className = 'markerDiv';
-            icon.containerDiv.title = array[0];
-            var lonlat = new TLngLat(array[2], array[3]);
-            var marker = new TMarker(lonlat, {icon: icon});
-            marker.attr = {sex: array[4]};
-            TEvent.addListener(marker, "click", function() {
-                var s = array[0] + '<button type="button" id="track" class="btn btn-link view-track" onclick="tdt.viewTrack()">链接</button>';
-                var infoWin = marker.openInfoWinHtml(s);
-                infoWin.setTitle(array[1]);
+    tdt.addData('info.txt');
 
+    //当前登录都位置
+    var icon = new TIcon("images/map-marker1.png",
+        new TSize(50, 50)
+    );
+    icon.containerDiv.className = 'selfmark';
+    icon.containerDiv.title = '自己';
+    var lonlat = new TLngLat(115, 39);
+    var marker = new TMarker(lonlat, {icon: icon});
+    tdt.isSend = false;
+    tdt.mystatus = '';
+    TEvent.addListener(marker, "click", function() {
+        var infoWin = marker.openInfoWinHtml(s);
+        infoWin.setTitle('');
+        if (!tdt.isSend) {
+            var s = '<div class="selfstatus">' +
+                    '<textarea rows="3" placeholder="最近发生了什么..."></textarea>' +
+                    '<button class="btn" type="button" id="sendStatus">发布</button></div>'
+            tdt.isSend = true;
 
-            });
-            map.addOverLay(marker);
-
+            infoWin.setLabel(s);
+        } else {
+            var s = tdt.mystatus;
+            infoWin.setLabel('helo');
+        }
+        $(infoWin.content).on('click', 'button', function(){
+            var status = $('.selfstatus textarea').val(),
+                s = '<li><a href="#">自己</a>&nbsp;&nbsp;' + status + '&nbsp;&nbsp;刚刚</li>';
+            tdt.mystatus = status;
+            $('.list-content .inner ul').prepend(s);
+            infoWin.closeInfoWindow();
         });
     });
+    marker.div.className = 'selfmarkdiv';
+    map.addOverLay(marker);
 
     //只显示男生，女生 或者全部
     $('.filter-btn').click(function(e){
@@ -167,6 +176,9 @@ $(function () {
 
         function filterNearbyMark(center) {
             var radius = 150000, circle = tdt.addCircle(center,radius);
+            setTimeout(function() {
+                circle.setFillOpacity(0.1);
+            }, 4000);
             var bounds = circle.getBounds();
             $.each(map.overlays, function(i, n){
                 n.hide && n.hide();
@@ -182,7 +194,6 @@ $(function () {
         } else {
             alert('浏览器不支持地理定位！');
         }
-
 
     });
 
@@ -207,11 +218,15 @@ $(function () {
             $.each(lines, function(index, value) {
                 var array = value.split("\t");
                 var lonlat = new TLngLat(array[1], array[2]);
-                var marker = new TMarker(lonlat);
+                var icon = new TIcon("images/marker/map-marker-marker-outside-azure.png",
+                    new TSize(50, 50)
+                );
+                var marker = new TMarker(lonlat, {icon: icon});
                 TEvent.addListener(marker, "click", function() {
-                    var s = array[0] + '<br/><strong>' + array[3] + '人想去</strong>';
+                    var s = array[0] + '<br/><b class="totip" title="刘芳,李响,计含">' + array[3] + '</b>人想去';
                     var infoWin = marker.openInfoWinHtml(s);
-                    //infoWin.setTitle(array[1]);
+                    infoWin.setTitle('');
+                    $('.totip').tooltip();
                 });
                 map.addOverLay(marker);
 
@@ -219,11 +234,127 @@ $(function () {
         });
     });
 
+    //查看pm2.5值
+    $('#pm25-btn').click(function (e) {
+        e.preventDefault();
+        $('#pm25-legend').show();
+        $.ajax({
+            type : 'GET',
+            dataType : 'jsonp',
+            url : 'http://www.kaiwenmap.cn/media/uploads/pm25/hourlyaqi.jsonp',
+            jsonpCallback : 'json',
+            success : function(data) {
+                var cityname = '', pmdata = [], count = 1, pmvalue = 0, color = '';
+                $.each(data, function(i, item){
+                    if (item.city === cityname) {
+                        if (parseInt(item.pm25) != 0) {++count;}
+                        pmvalue += parseInt(item.pm25);
+                    } else {
+                        if (pmdata.length) {
+                            var i = pmdata[pmdata.length-1];
+                            i.pm = Math.round(pmvalue/count);
+                            // console.log(i.city, i.pm);
+                            var llat = new TLngLat(i.lon, i.lat), color = '';
+                            if (0 < i.pm && i.pm <= 50) {
+                                //优
+                                color = '#43CE17';
+                            }
+                            if (50 < i.pm && i.pm <= 100) {
+                                //良
+                                color = '#FDFF00';
+                            }
+                            if (100 < i.pm && i.pm <= 150) {
+                                //轻度污染
+                                color = '#FF9500';
+                            }
+                            if (150 < i.pm && i.pm <= 200) {
+                                //中度污染
+                                color = '#FB0010';
+                            }
+                            if (200 < i.pm && i.pm <= 300) {
+                                //重度污染
+                                color = '#950066';
+                            }
+                            if (300 < i.pm) {
+                                //严重污染
+                                color = '#660029';
+                            }
+                            if (i.pm !== 0) {
+                                tdt.addCircle(llat, 40000, color);
+                            }
+                        };
+                        pmdata.push({
+                            'city': item.city,
+                            'lon': item.lng,
+                            'lat': item.lat,
+                            'pm': parseInt(item.pm25)
+                        });
+                        count = 1;
+                        pmvalue = 0;
+                    };
+                    cityname = item.city;
+                });
+            }
+        });
 
+    });
+
+    //最新状态关闭功能
+    $('.list-content .close').click(function (e) {
+        e.preventDefault();
+        $(this).parent().hide();
+    });
+
+    $('#year11').click(function(){
+        tdt.addData('info2011.txt');
+    });
+    $('#year12').click(function(){
+        tdt.addData('info2012.txt');
+    });
+    $('#year13').click(function(){
+        tdt.addData('info.txt');
+    });
+    $('.totip').tooltip();
 });
-tdt.viewTrack = function(){
+tdt.addData = function(txtname){
+    $('#t_overlaysDiv').empty();
+    $.get("data/" + txtname, function(data) {
+        var lines = data.split('\n');
+        $.each(lines, function(index, value) {
+            // if (index > 0) return false;
+            var array = value.split("\t");
+            var r = Math.round(Math.random(1)*25 );
+            var icon = new TIcon("images/" + r + ".jpg",
+                new TSize(30, 30)
+            );
+            icon.containerDiv.className = 'markerDiv';
+            if (!parseInt(array[4])) {
+                icon.containerDiv.className = 'markerDiv boy';
+            }
+            icon.containerDiv.title = array[0];
+            var lonlat = new TLngLat(array[2], array[3]);
+            var marker = new TMarker(lonlat, {icon: icon});
+            marker.attr = {sex: array[4]};
+            TEvent.addListener(marker, "click", function() {
+                var s = array[1] + '<button type="button" id="track" class="btn btn-link view-track"' +
+                ' onclick="tdt.viewTrack(' + array[2] + ',' + array[3] + ')">轨迹</button>';
+                var infoWin = marker.openInfoWinHtml(s);
+                infoWin.setTitle(array[0]);
+            });
+
+            map.addOverLay(marker);
+        });
+    });
+}
+tdt.viewTrack = function(lon, lat){
     var a = Math.round(Math.random() * 8), b = 'friend' + a;
     var tdata = tdt.trackData[b];
+    // for (var i = 0; i < 2; i++) {
+    //     var a = Math.round(Math.random() * 20);
+    //     var p = map.overlays[a].point;
+    //     tdata.push([p.getLng(), p.getLat()]);
+    // };
+    tdata.push([lon, lat]);
     var r = Math.round(Math.random() * 255),
         g = Math.round(Math.random() * 255),
         b = Math.round(Math.random() * 255),
@@ -234,24 +365,26 @@ tdt.viewTrack = function(){
 //增加轨迹点
 tdt.addPolyline = function(tdata, color){
     var points = [];
-    for (var i = tdata.length - 1; i >= 0; i--) {
+    for (var i = 0; i < tdata.length - 1; i++) {
         var arr = tdata[i];
         points.push(new TLngLat(arr[0], arr[1]));
     };
 
-    var polyline = new TPolyline(points,{strokeColor:color, strokeWeight:3});
+    var polyline = new TPolyline(points,{strokeColor:color,
+        strokeWeight:8,
+        strokeOpacity:0});
     map.addOverLay(polyline);
 };
 
 //增加圆,返回circle
-tdt.addCircle = function(center, radius){
+tdt.addCircle = function(center, radius, color){
     var config = {
-        strokeColor:"#685300", //圆边线颜色
-        fillColor:"#68A3CA",    //填充颜色。
-        strokeWeight:"2px", //圆边线线的宽度，以像素为单位
-        strokeOpacity:0.5,  //圆边线线的透明度，取值范围0 - 1
-        fillOpacity:0.2,            //填充的透明度，取值范围0 - 1
-        strokeStyle:"solid" //圆边线线的样式，solid或dashed
+        strokeColor: "#685300", //圆边线颜色
+        fillColor: color || "#68A3CA",    //填充颜色。
+        strokeWeight: "2px", //圆边线线的宽度，以像素为单位
+        strokeOpacity: 0.5,  //圆边线线的透明度，取值范围0 - 1
+        fillOpacity: 0.7,            //填充的透明度，取值范围0 - 1
+        strokeStyle: "solid" //圆边线线的样式，solid或dashed
     };
     var radius = radius || 150000;
     // 定义该矩形的显示区域
@@ -269,15 +402,15 @@ tdt.addMarkTool = function() {
         map.addOverLay(marker);
         TEvent.addListener(marker, "click", function() {
             var s = '<div class="input-append">' +
-                    '<input class="span2" id="place-text" type="text" placeholder="这是哪里...">' +
-                    '<button class="btn" type="button" id="readygo-btn">走起</button></div>'
+                    '<input class="col-md-2" id="place-text" type="text" placeholder="这是哪里...">' +
+                    '<button class="btn btn-default" type="button" id="readygo-btn">走起</button></div>'
             var infoWin = marker.openInfoWinHtml(s);
             infoWin.setTitle('输入地名');
 
             $(infoWin.content).on('click', 'button', function(){
-                infoWin.setLabel($('#place-text').val());
+                var place = $('#place-text').val(), s = place + ',<a href="#">小房</a>,第一个想来这里';
                 infoWin.setTitle('');
-
+                infoWin.setLabel(s);
             });
 
             // infoWin.content.style.marginTop = 0;
@@ -297,23 +430,26 @@ tdt.addTenBeauArea = function() {
             //if (index > 3) return false;
             var arr = value.split("\t");
 
-            var icon = new TIcon("images/area.jpg" ,
-                new TSize(30, 30)
+            var icon = new TIcon("images/marker/map-marker-marker-outside-chartreuse.png" ,
+                new TSize(50, 50),
+                {
+                    //anchor: new TPixel(-25,80)
+                }
             );
             // icon.containerDiv.className = 'markerDiv';
             var arrtmp = arr[1].split(',');
             var lonlat = new TLngLat(arrtmp[0], arrtmp[1]);
             var marker = new TMarker(lonlat, {icon: icon});
-            // marker.attr = {sex: array[4]};
             TEvent.addListener(marker, "click", function() {
                 var s = '<img class="detailimg img-polaroid" src="data/areaimages/' +
-                    arr[3] + '" alt="' + arr[0] + '"><p class="areadeatil">' + arr[2] + '</p>';
+                    arr[3] + '" alt="' + arr[0] + '"><p class="areadeatil m5">' + arr[2] +
+                    '有<b class="m5 totip text-info" title="刘芳,李响,计含">3</b>' +
+                    '个人想去，<a href="#" class="btn btn-link">我想去</a></p>';
                 var infoWin = marker.openInfoWinHtml(s);
                 infoWin.setTitle(arr[0]);
+                $('.totip').tooltip();
             });
             map.addOverLay(marker);
-
         });
     });
-
 }

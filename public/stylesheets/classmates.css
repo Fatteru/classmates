@@ -24,15 +24,27 @@ img {
     /*height: valid!important;*/
     height: auto\9;
 }
+.m5{
+  margin: 0 5px;
+}
 .markerDiv{
-    background: url(../images/my1.png) no-repeat;
-    width: 38px;
-    height: 38px;
+    background: url(../images/my2.png) no-repeat;
+    width: 45px;
+    height: 44px;
     padding: 6px 0 0 7px;
+}
+.boy{
+    background: url(../images/my1.png) no-repeat;
+}
+.selfmarkdiv{
+  z-index: 500!important;
+}
+#sendStatus{
+    width:100%;
 }
 #time-btn-div{
     position: absolute;
-    top: 20px;
+    top: 60px;
     left: 20px;
     z-index: 2;
 }
@@ -40,7 +52,7 @@ img {
     width: 400px;
     height: 250px;
 }
-.areadeatil{
+.areadeatil p{
     text-indent: 20px;
     margin-top: 10px;
 }
@@ -58,7 +70,6 @@ img {
   bottom: 30px;
   width: 240px;
   z-index: 999;
-  height: 300px;
   color: #4C4C4C;
 }
 .list-content .close{
@@ -68,7 +79,7 @@ img {
   border-width: 1px;
   color: #161212;
   display: inline;
-  float: right;
+  /*float: right;*/
   font-size: 24px;
   height: 38px;
   line-height: 38px;
@@ -81,6 +92,34 @@ img {
 }
 .list-content .close:hover{
   background-color: #ccc;
+}
+.list-content .title {
+  /*float: left;*/
+  height: 30px;
+  position: relative;
+  width: 196px;
+}
+.list-content .inner {
+  background-color: #FFF;
+  height: auto;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 6px 8px 8px 20px;
+}
+.list-content .inner {
+  line-height: 24px;
+}
+#pmdatadiv{
+  display: none;
+}
+/*pm2.5图例*/
+#pm25-legend{
+  position: absolute;
+  bottom: 0;
+  left:40%;
+  z-index: 10;
+  display: none;
 }
 .animate-modal{
     -webkit-animation-name:'wobble';/*动画属性名，也就是我们前面keyframes定义的动画名*/

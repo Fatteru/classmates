@@ -16,34 +16,48 @@ html
         ul.nav.navbar-nav
           li.dropdown
             a.dropdown-toggle data-toggle="dropdown" href="#"
-              | 时间
+              | 这些年
               b.caret
             ul.dropdown-menu
               li
-                a href="#" 2008
+                a#year11 href="#" 2011年
               li
-                a href="#" 2009
+                a#year12 href="#" 2012年
               li
-                a href="#" 2010
+                a#year13 href="#" 2013年
           li.dropdown
             a.dropdown-toggle data-toggle="dropdown" href="#"
-              | 性别
+              | 男生女生
               b.caret
             ul.dropdown-menu
               li
-                a href="#" 全部
+                a.filter-btn.selftooltip.filter-all href="#" 全部
               li
-                a href="#" 男生
+                a.filter-btn.selftooltip data-sex="1" href="#" 只看男生
               li
-                a href="#" 女生
+                a.filter-btn.selftooltip data-sex="0" href="#" 只看女生
+              li
+                a#nearby-btn href="#" 附近的人
+          li.dropdown
+            a.dropdown-toggle data-toggle="dropdown" href="#"
+              | 想去
+              b.caret
+            ul.dropdown-menu
+              li
+                a#future-btn href="#" 我想去
+              li
+                a#guyswantgo-btn href="#" 大家想去
+          li.dropdown
+            a.dropdown-toggle data-toggle="dropdown" href="#"
+              | 专题图
+              b.caret
+            ul.dropdown-menu
+              li
+                a#tenarea-btn href="#" 中国最美十个地方
+              li
+                a#pm25-btn href="#" PM2.5
           li
-            a href='#' 轨迹
-          li
-            a href='#' 附近的人
-          li
-            a href='#' 中国最美的十个地方
-          li
-            a href='#' 我想去
+            a href="/contact" 通讯录
         ul.nav.navbar-nav.navbar-right
           - if @user
             li.dropdown
