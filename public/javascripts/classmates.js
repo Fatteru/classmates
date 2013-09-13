@@ -164,7 +164,7 @@ $(function () {
             var coords = position.coords, lonlat = new TLngLat(coords.longitude, coords.latitude);
             // map.centerAndZoom(lonlat, zoom);
             center = lonlat;
-            alert('定位成功');
+            //alert('定位成功');
             filterNearbyMark(center);
             map.centerAndZoom(center, 8);
         };
@@ -317,7 +317,8 @@ $(function () {
     $('.totip').tooltip();
 });
 tdt.addData = function(txtname){
-    $('#t_overlaysDiv').empty();
+    // $('#t_overlaysDiv').empty();
+    map.clearOverLays();
     $.get("data/" + txtname, function(data) {
         var lines = data.split('\n');
         $.each(lines, function(index, value) {
@@ -402,8 +403,8 @@ tdt.addMarkTool = function() {
         map.addOverLay(marker);
         TEvent.addListener(marker, "click", function() {
             var s = '<div class="input-append">' +
-                    '<input class="col-md-2" id="place-text" type="text" placeholder="这是哪里...">' +
-                    '<button class="btn btn-default" type="button" id="readygo-btn">走起</button></div>'
+                    '<input class="span2" id="place-text" type="text" placeholder="这是哪里...">' +
+                    '<button class="btn" type="button" id="readygo-btn">走起</button></div>'
             var infoWin = marker.openInfoWinHtml(s);
             infoWin.setTitle('输入地名');
 

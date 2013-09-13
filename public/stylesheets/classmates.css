@@ -29,8 +29,8 @@ img {
 }
 .markerDiv{
     background: url(../images/my2.png) no-repeat;
-    width: 45px;
-    height: 44px;
+    width: 44px;
+    height: 45px;
     padding: 6px 0 0 7px;
 }
 .boy{
@@ -44,7 +44,7 @@ img {
 }
 #time-btn-div{
     position: absolute;
-    top: 60px;
+    top: 30px;
     left: 20px;
     z-index: 2;
 }

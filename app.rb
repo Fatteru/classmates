@@ -4,7 +4,7 @@ require 'bundler'
 Bundler.require
 
 require 'sinatra'
-require 'sinatra/assetpack'
+# require 'sinatra/assetpack'
 require 'slim'
 # require 'sass'
 require 'mongoid'
@@ -17,28 +17,28 @@ env = ENV['RACK_ENV'] || :development
 Mongoid.load!("config/mongoid.yml", env)
 
 # Asset Pack.
-register Sinatra::AssetPack
+# register Sinatra::AssetPack
 
-assets do
-  serve '/javascripts', from: 'public/javascripts'
-  serve '/stylesheets', from: 'public/stylesheets'
-  serve '/images',      from: 'public/images'
+# assets do
+#   serve '/javascripts', from: 'public/javascripts'
+#   serve '/stylesheets', from: 'public/stylesheets'
+#   serve '/images',      from: 'public/images'
 
-  js :application, [
-    '/javascripts/jquery-1.9.1.min.js',
-    '/javascripts/bootstrap.js',
-    '/javascripts/classmates.js',
-    '/javascripts/tdt.js'
-  ]
+#   js :application, [
+#     '/javascripts/jquery-1.9.1.min.js',
+#     '/javascripts/bootstrap.js',
+#     '/javascripts/classmates.js',
+#     '/javascripts/tdt.js'
+#   ]
 
-  css :application, [
-    '/stylesheets/bootstrap.css',
-    '/stylesheets/classmates.css'
-  ]
+#   css :application, [
+#     '/stylesheets/bootstrap.css',
+#     '/stylesheets/classmates.css'
+#   ]
 
-  js_compression  :jsmin
-  css_compression :simple
-end
+#   js_compression  :jsmin
+#   css_compression :simple
+# end
 
 require './config/weibo'
 require './models/user'
